@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load Data
+// Load the data from the JSON file
 const taskFileName = 'task.json';
 const taskFilePath = path.join(__dirname,`..`,`${taskFileName}`);
 
@@ -18,18 +18,18 @@ const taskJSON = taskString ? JSON.parse(taskString) : {};
 const taskData = taskJSON.tasks || [];
 
 // Helper functions
-const cleanTaskId = (taskId) => {
-    const cleanedTaskId = taskId ? Number(taskId) : null;
-    return cleanedTaskId;
-}
+// const cleanTaskId = (taskId) => {
+//     const cleanedTaskId = taskId ? Number(taskId) : null;
+//     return cleanedTaskId;
+// }
 
-const isValidTask = (taskObj) => {
-    return taskObj && 
-            typeof taskObj === 'object' &&
-            typeof taskObj.title === 'string' &&
-            typeof taskObj.description === 'string' &&
-            typeof taskObj.completed === 'boolean';
-}
+// const isValidTask = (taskObj) => {
+//     return taskObj && 
+//             typeof taskObj === 'object' &&
+//             typeof taskObj.title === 'string' &&
+//             typeof taskObj.description === 'string' &&
+//             typeof taskObj.completed === 'boolean';
+// }
 
 // GET request handler to return all tasks
 const getAllTasks = (req, res) => {
@@ -42,12 +42,7 @@ const getAllTasks = (req, res) => {
 
 // GET request handler to get a task by id
 const getTaskById = (req, res) => {
-    const taskId = cleanTaskId(req.params.taskId);
-    
-    // Check if taskId is valid
-    if(!taskId){
-        res.status(404).send('Invalid Input: Check the task id provided');
-    }
+    const taskId = Number(req.params.taskId);
 
     // If the task id is provided, find the task
     const taskFound = taskData.find((task) => task.id === taskId);
@@ -59,13 +54,6 @@ const getTaskById = (req, res) => {
 // POST request handler to create a new task
 const insertNewTask = (req, res) => {
     const newTask = req.body;
-    
-    // Check if the task body is valid
-    if(!isValidTask(newTask)) {
-        let resStatus = 400;
-        let resBody = 'Invalid Input: Check the task data provided';
-        return res.status(resStatus).send(resBody);
-    }
 
     // Create a new task id
     const newTaskId = taskData.length > 0 ? (Number(taskData[taskData.length - 1].id) || 0) + 1 : 1;
@@ -84,22 +72,8 @@ const insertNewTask = (req, res) => {
 
 // PUT request handler to update a task by id
 const updateTaskById = (req, res) => {
-    const taskId = cleanTaskId(req.params.taskId);
+    const taskId = Number(req.params.taskId);
     const updatedTask = req.body;
-
-    // Check if taskId is valid
-    if (!taskId) {
-        let resStatus = 404;
-        let resBody = 'Invalid Input: Check the task id provided';
-        return res.status(resStatus).send(resBody);
-    }
-
-    // Checking if the task body is valid
-    if(!isValidTask(updatedTask)) {
-        let resStatus = 400;
-        let resBody = 'Invalid Input: Check the task data provided';
-        return res.status(resStatus).send(resBody);
-    }
 
     // Checking if the task exists
     const taskIndex = taskData.findIndex((task) => task.id === taskId);
@@ -123,14 +97,7 @@ const updateTaskById = (req, res) => {
 
 // DELETE request handler to delete a task by id
 const deleteTaskById = (req, res) => {
-    const taskId = cleanTaskId(req.params.taskId);
-
-    // Check if taskId is valid
-    if (!taskId) {
-        let resStatus = 404;
-        let resBody = 'Invalid Input: Check the task id provided';
-        return res.status(resStatus).send(resBody);
-    }
+    const taskId = Number(req.params.taskId);
 
     // Checking if the task exists
     const taskIndex = taskData.findIndex((task) => task.id === taskId);
