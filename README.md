@@ -14,6 +14,7 @@ Task Management API
 2. Navigate to the project directory: `cd task-manager-api-kskoulini`
 3. Install dependencies: `npm install`
 4. Start the server: `npm start`
+5. The API will be available at `http://localhost:3000`
 
 ## Routes
 - `GET /tasks`: Retrieve all tasks. Sorts tasks by `creation` date by default.
@@ -27,6 +28,14 @@ Task Management API
 - Checks if the task ID is a positive integer, returning a 404 status code for invalid IDs.
 - Validates task body fields, returning a 400 status code for missing or invalid fields.
 - Returns a 404 status code if a task is not found during retrieval or deletion.
+
+# Testing
+- The API can be tested using tools like Postman or cURL.
+- Example cURL command to get all tasks:
+  ```bash
+  curl -X GET http://localhost:3000/tasks
+  ```
+- Alternatively, run `npm run test` to execute predefined tests.
 
 Thank you! :)
 
