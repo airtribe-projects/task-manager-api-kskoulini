@@ -4,7 +4,7 @@ Task Management API
 - It implements CRUD operations, error handling, and input validation.
 
 ## Features
-- Create, Read, Update, and Delete tasks
+- Controllers and Routes handling `Create`, `Read`, `Update`, and `Delete` tasks
 - In-memory data storage for tasks. Reads the data from `task.json` file.
 - Input validation using `express-validator`
 - Error handling middleware for common scenarios
