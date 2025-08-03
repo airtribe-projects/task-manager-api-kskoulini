@@ -2,17 +2,27 @@ const { body, param, validationResult } = require('express-validator');
 
 // Middleware to validate task data
 const taskIdValidator = [
-    param('taskId')
-        .isInt({ min: 1 }).withMessage('"taskId" must be a positive integer')
+    param('id')
+        .isInt({ min: 1 }).withMessage('id must be a positive integer')
         .toInt(),
 ];
 
+const taskLevelValidator = [
+    param('level')
+        .optional()
+        .isIn(['low', 'medium', 'high']).withMessage('level must be one of low|medium|high')
+]
+
 const taskBodyValidators = [
-  body('title').notEmpty().withMessage('"title" is required'),
-  body('description').notEmpty().withMessage('"description" is required'),
-  body('completed')
-    .exists().withMessage('"completed" is required')
-    .custom(value => typeof value === 'boolean').withMessage('"completed" must be a boolean'),
+    body('title').notEmpty().withMessage('title is required'),
+    body('description').notEmpty().withMessage('description is required'),
+    body('completed')
+        .exists().withMessage('completed is required')
+        .custom(value => typeof value === 'boolean').withMessage('completed must be a boolean'),
+    body('priority') 
+        .optional()
+        .toLowerCase()
+        .isIn(['low', 'medium', 'high']).withMessage('level must be one of low|medium|high')
 ];
 
 // Function to handle task validation errors
@@ -44,6 +54,7 @@ const handleValidationErrors = (req, res, next) => {
 
 module.exports = {
     taskIdValidator,
+    taskLevelValidator,
     taskBodyValidators,
     handleValidationErrors,
 };

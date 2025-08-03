@@ -16,11 +16,12 @@ Task Management API
 4. Start the server: `npm start`
 
 ## Routes
-- `GET /tasks`: Retrieve all tasks
-- `GET /tasks/:taskId`: Retrieve a task by ID
-- `POST /tasks`: Create a new task
-- `PUT /tasks/:taskId`: Update a task by ID
-- `DELETE /tasks/:taskId`: Delete a task by ID
+- `GET /tasks`: Retrieve all tasks. Sorts tasks by `creation` date by default.
+- `GET /tasks/priority/:level?`: Retrieve tasks sorted by `priority` level (optional filter by level).
+- `GET /tasks/:id`: Retrieve a task by ID.
+- `POST /tasks`: Create a new task.
+- `PUT /tasks/:id`: Update a task by ID.
+- `DELETE /tasks/:id`: Delete a task by ID.
 
 ## Error Handling
 - Checks if the task ID is a positive integer, returning a 404 status code for invalid IDs.
